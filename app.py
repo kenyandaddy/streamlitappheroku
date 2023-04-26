@@ -150,6 +150,70 @@ if (selected == 'Heart Disease Prediction'):
         
     st.success(heart_diagnosis)
     
+    # code for Prediction
+heart_diagnosis = ''
+
+# creating a button for Prediction
+
+if st.button('Heart Disease Test Result'):
+    try:
+        # convert input values to the appropriate data types
+        age = int(age)
+        sex = int(sex)
+        cp = int(cp)
+        trestbps = int(trestbps)
+        chol = int(chol)
+        fbs = int(fbs)
+        restecg = int(restecg)
+        thalach = int(thalach)
+        exang = int(exang)
+        oldpeak = float(oldpeak)
+        slope = int(slope)
+        ca = float(ca)
+        thal = int(thal)
+        
+        # check if input values are within expected range
+        if not (20 <= age <= 80):
+            raise ValueError("Age should be between 20 and 80")
+        if sex not in [0, 1]:
+            raise ValueError("Sex should be 0 or 1")
+        if not (1 <= cp <= 4):
+            raise ValueError("Chest Pain types should be between 1 and 4")
+        if not (80 <= trestbps <= 200):
+            raise ValueError("Resting Blood Pressure should be between 80 and 200")
+        if not (100 <= chol <= 600):
+            raise ValueError("Serum Cholestoral should be between 100 and 600")
+        if fbs not in [0, 1]:
+            raise ValueError("Fasting Blood Sugar should be 0 or 1")
+        if not (0 <= restecg <= 2):
+            raise ValueError("Resting Electrocardiographic results should be between 0 and 2")
+        if not (60 <= thalach <= 220):
+            raise ValueError("Maximum Heart Rate achieved should be between 60 and 220")
+        if exang not in [0, 1]:
+            raise ValueError("Exercise Induced Angina should be 0 or 1")
+        if not (0.0 <= oldpeak <= 6.2):
+            raise ValueError("ST depression induced by exercise should be between 0.0 and 6.2")
+        if not (1 <= slope <= 3):
+            raise ValueError("Slope of the peak exercise ST segment should be between 1 and 3")
+        if not (0.0 <= ca <= 4.0):
+            raise ValueError("Major vessels colored by flourosopy should be between 0.0 and 4.0")
+        if not (0 <= thal <= 2):
+            raise ValueError("Thal should be between 0 and 2")
+        
+        # make prediction using input values
+        heart_prediction = heart_disease_model.predict([[age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]])                          
+        
+        if (heart_prediction[0] == 1):
+            heart_diagnosis = 'The person is having heart disease'
+        else:
+            heart_diagnosis = 'The person does not have any heart disease'
+        
+    except ValueError as e:
+        # display error message to user
+        st.error(str(e))
+        
+st.success(heart_diagnosis)
+    
         
     
     
